@@ -13,7 +13,8 @@ model User {
   name      String
   password  String 
 
-  role      UserRole @default(USER) 
+  role      UserRole @default(USER)
+  verified  DateTime
 
   provider    String?
   providerId  String?
@@ -39,11 +40,9 @@ model Product {
   id        Int     @id @default(autoincrement()) 
   name      String  @unique
   desc      String
-  price     Float
-  date      String
+  date      DateTime @default(now())
   developer String
-  rating    Float
-  imageUrl  String
+  rating    Int
 
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
@@ -58,7 +57,7 @@ model Product {
 
 model ProductVariant { 
   id        Int     @id @default(autoincrement()) 
-  price     Float
+  price     Int
   editionType Int
 
   product Product @relation(fields: [productId], references: [id])

@@ -6,8 +6,8 @@ interface Props {
   className?: string;
 }
 
-function FilterCheckbox({ className }: Props) {
+function Template({ className }: Props) {
   return <div className={cn("", className)}></div>;
 }
 
-export default FilterCheckbox;
+export default Template;

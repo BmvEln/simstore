@@ -31,8 +31,6 @@ export default function Home() {
                   date: "2 февр. 2016 г.",
                   developer: "SCS Software",
                   rating: 3,
-                  imageUrl:
-                    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/270880/e614a0372d9b6499ea40282529c29c554c35b821/hero_capsule.jpg?t=1764952453",
                 },
                 {
                   id: 2,
@@ -42,8 +40,6 @@ export default function Home() {
                   date: "12 окт. 2012 г.",
                   developer: "SCS Software",
                   rating: 2,
-                  imageUrl:
-                    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/227300/b1783fbc824cba63d3393db25af776d77e68a079/hero_capsule.jpg?t=1764266628",
                 },
                 {
                   id: 3,
@@ -53,8 +49,6 @@ export default function Home() {
                   date: "19 мая 2026 г.",
                   developer: "Playground Games",
                   rating: 4,
-                  imageUrl:
-                    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2483190/e8aa61e8fd1b81586210d93ab31c3d9fcaa99fbd/hero_capsule.jpg?t=1771950222",
                 },
                 {
                   id: 4,
@@ -64,8 +58,6 @@ export default function Home() {
                   date: "12 нояб. 2024 г.",
                   developer: "GIANTS Software",
                   rating: 4,
-                  imageUrl:
-                    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2300320/a23c74db73cb45278459837844bbb317b588b946/hero_capsule.jpg?t=1764249746",
                 },
               ]}
               categoryId={1}
@@ -82,8 +74,6 @@ export default function Home() {
                   date: "26 сент. 2025 г.",
                   developer: "EA Canada",
                   rating: 2,
-                  imageUrl:
-                    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3405690/92cec30c4b24d581ea110d9f3ead824abcba48c4/hero_capsule.jpg?t=1769020260",
                 },
                 {
                   id: 2,
@@ -93,8 +83,6 @@ export default function Home() {
                   date: "30 мая 2025 г.",
                   developer: "Codemasters",
                   rating: 4,
-                  imageUrl:
-                    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3059520/d9b04251248a7d0259ebd9debf669034cf2c5f02/hero_capsule.jpg?t=1767801592",
                 },
                 {
                   id: 3,
@@ -104,8 +92,6 @@ export default function Home() {
                   date: "29 мая 2015 г.",
                   developer: "BeamNG",
                   rating: 4,
-                  imageUrl:
-                    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/284160/004a03c1e800bbe6235439d0252bf7b507a29e4e/hero_capsule.jpg?t=1769542627",
                 },
               ]}
               categoryId={2}

@@ -46,8 +46,6 @@ function Filters({ className }: Props) {
             { text: "Режим карьеры", value: "6" },
           ]}
         />
-
-        {/* Сложность - Для новичков / Профи */}
       </div>
     </div>
   );

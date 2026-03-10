@@ -1,7 +1,8 @@
-import Image from "next/image";
 import React from "react";
 import Title from "./title";
 import Link from "next/link";
+import Image from "next/image";
+import { IMG } from "@/static/img";
 
 interface RowInfoProps {
   title: string;
@@ -33,7 +34,6 @@ export interface ProductCardProps {
   date: string;
   developer: string;
   rating: number;
-  imageUrl: string;
   className?: string;
 }
 
@@ -45,7 +45,6 @@ function ProductCard({
   date,
   developer,
   rating,
-  imageUrl,
   className,
 }: ProductCardProps) {
   const displayDesc = desc.length > 80 ? desc.slice(0, 80) + "..." : desc;
@@ -53,7 +52,7 @@ function ProductCard({
   return (
     <div className="flex border rounded-lg overflow-hidden">
       <Link className="cursor-pointer" href={`/product/${id}`}>
-        <img src={imageUrl} width={363} height={448} alt="" />
+        <Image src={IMG.s01} width={363} height={448} alt="" />
       </Link>
 
       <div className="p-3">
