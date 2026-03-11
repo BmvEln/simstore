@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import Container from "@/components/shared/container";
 import { Button } from "@/components/ui";
 import { ArrowRight, ShoppingCart, User } from "lucide-react";
+import Link from "next/link";
+import SearchInput from "@/components/shared/search-input";
 
 interface Props {
   className?: string;
@@ -33,12 +35,19 @@ function Header({ className }: Props) {
     <header className={cn("", className)}>
       <Container className="flex items-center justify-between py-8">
         {/* Левая часть */}
-        <div className="flex items-center gap-4">
-          <Logo />
-          <div>
-            <h1 className="text-2xl uppercase font-black">SimStore</h1>
-            <p className="text-sm text-gray-400 leading-3">Симулируй это</p>
+        <Link href="/">
+          <div className="flex items-center gap-4">
+            <Logo />
+            <div>
+              <h1 className="text-2xl uppercase font-black">SimStore</h1>
+              <p className="text-sm text-gray-400 leading-3">Симулируй это</p>
+            </div>
           </div>
+        </Link>
+
+        {/* Центральная часть*/}
+        <div className="w-full mx-10">
+          <SearchInput />
         </div>
 
         {/* Правая часть */}
