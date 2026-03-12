@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-
 import { useIntersection } from "react-use";
+
+import { useCategoryStore } from "@/store/category";
+
 import Title from "./title";
 import ProductCard, { ProductCardProps } from "./product-card";
-import { useCategoryStore } from "@/store/category";
 
 type Item = ProductCardProps;
 
@@ -30,8 +31,6 @@ function ProductGroup({ title, items, categoryId, className }: Props) {
 
   useEffect(() => {
     if (intersection?.isIntersecting) {
-      console.log("setCategoryId", intersection);
-
       setCategoryId(categoryId);
     }
   }, [intersection?.isIntersecting, title, categoryId]);
