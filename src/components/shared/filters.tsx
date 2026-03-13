@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import { cn } from "@/lib/utils";
@@ -6,6 +8,7 @@ import Title from "@/components/shared/title";
 import FilterCheckbox from "@/components/shared/filter-checkbox";
 import CheckboxFiltersGroup from "./checkbox-filters-group";
 import RangeCosts from "./range-costs";
+import { useFilterFeatures } from "@/hooks";
 
 interface Props {
   className?: string;
@@ -13,9 +16,16 @@ interface Props {
 }
 
 function Filters({ className }: Props) {
+  const features = useFilterFeatures();
+
+  const featuresMap = features.map((f) => ({
+    text: f.name,
+    value: f.id.toString(),
+  }));
+
   return (
     <div className={cn("", className)}>
-      <Title className="mb-5 font-fold" size="sm" text="Фильтрация" />
+      <Title className="mb-5 font-bold" size="sm" text="Фильтрация" />
 
       <div className="flex flex-col gap-4">
         <FilterCheckbox text="Платные" value="1" />
@@ -28,23 +38,13 @@ function Filters({ className }: Props) {
         <CheckboxFiltersGroup
           title="Особенности"
           className="mt-5"
-          limit={4}
-          defaultItems={[
-            { text: "Мультиплеер", value: "1" },
-            { text: "Открытый мир", value: "2" },
-            { text: "Режим карьеры", value: "3" },
-            { text: "Мультиплеер", value: "4" },
-            { text: "Открытый мир", value: "5" },
-            { text: "Режим карьеры", value: "6" },
-          ]}
-          items={[
-            { text: "Мультиплеер", value: "1" },
-            { text: "Открытый мир", value: "2" },
-            { text: "Режим карьеры", value: "3" },
-            { text: "Мультиплеер", value: "4" },
-            { text: "Открытый мир", value: "5" },
-            { text: "Режим карьеры", value: "6" },
-          ]}
+          limit={3}
+          defaultItems={featuresMap}
+          items={featuresMap}
+          loading={!features.length}
+          onChange={(values) => {
+            console.log(values);
+          }}
         />
       </div>
     </div>

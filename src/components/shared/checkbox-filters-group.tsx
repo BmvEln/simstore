@@ -3,7 +3,9 @@
 import React, { useCallback, useState } from "react";
 
 import FilterCheckbox, { FilterCheckboxProps } from "./filter-checkbox";
-import { Input } from "../ui/input";
+
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Item = FilterCheckboxProps;
 
@@ -13,6 +15,7 @@ interface Props {
   defaultItems: Item[];
   limit?: number;
   searchInputPlaceholder?: string;
+  loading: boolean;
   onChange: (values: string[]) => void;
   defaultValue?: string[];
   className?: string;
@@ -24,6 +27,7 @@ function CheckboxFiltersGroup({
   defaultItems,
   limit = 4,
   searchInputPlaceholder = "Поиск...",
+  loading,
   onChange,
   defaultValue,
   className,
@@ -38,15 +42,29 @@ function CheckboxFiltersGroup({
     [],
   );
 
+  if (loading) {
+    return (
+      <div className={className}>
+        <div className="font-bold mb-3">{title}</div>
+
+        <div className="flex flex-col gap-4">
+          {[...new Array(limit)].map((_, idx) => (
+            <Skeleton key={idx} className="h-6  w-full rounded-md" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   const calcItems = showAll
     ? items.filter((item) =>
         item.text.toLowerCase().includes(searchValue.toLowerCase()),
       )
-    : defaultItems.slice(0, 4);
+    : defaultItems.slice(0, limit);
 
   return (
     <div className={className}>
-      <p className="font-bold mb-3">{title}</p>
+      <div className="font-bold mb-3">{title}</div>
 
       {showAll && (
         <div className="mb-5">

@@ -52,7 +52,7 @@ function ProductCard({
   return (
     <div className="flex border rounded-lg overflow-hidden">
       <Link className="cursor-pointer" href={`/product/${id}`}>
-        <Image src={IMG.s01} width={363} height={448} alt="" />
+        <Image src={IMG.s01} width={363} height={448} alt="" priority />
       </Link>
 
       <div className="p-3">

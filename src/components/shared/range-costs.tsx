@@ -19,7 +19,6 @@ function RangeCosts() {
           value={priceRange[0]}
           min={0}
           max={1000}
-          defaultValue={priceRange[0]}
           onChange={(e) =>
             setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])
           }

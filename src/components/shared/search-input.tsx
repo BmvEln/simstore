@@ -29,10 +29,18 @@ function SearchInput({ className }: Props) {
   }, []);
 
   useDebounce(
-    () => {
-      API.products.search(search).then((data) => {
+    async () => {
+      try {
+        if (search.trim() === "") {
+          setProducts([]);
+          return;
+        }
+
+        const data = await API.products.search(search);
         setProducts(data);
-      });
+      } catch (error) {
+        console.error("Ошибка при поиске продуктов:", error);
+      }
     },
     250,
     [search],
