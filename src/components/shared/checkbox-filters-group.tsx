@@ -2,7 +2,9 @@
 
 import React, { useCallback, useState } from "react";
 
-import FilterCheckbox, { FilterCheckboxProps } from "./filter-checkbox";
+import FilterCheckbox, {
+  FilterCheckboxProps,
+} from "@/components/shared/filter-checkbox";
 
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,24 +14,26 @@ type Item = FilterCheckboxProps;
 interface Props {
   title: string;
   items: Item[];
-  defaultItems: Item[];
   limit?: number;
   searchInputPlaceholder?: string;
   loading: boolean;
-  onChange: (values: string[]) => void;
+  onClickCheckbox: (id: string) => void;
   defaultValue?: string[];
+  selectedValues: Set<string>;
+  name?: string;
   className?: string;
 }
 
 function CheckboxFiltersGroup({
   title,
   items,
-  defaultItems,
   limit = 4,
   searchInputPlaceholder = "Поиск...",
   loading,
-  onChange,
+  onClickCheckbox,
   defaultValue,
+  selectedValues,
+  name = "",
   className,
 }: Props) {
   const [showAll, setShowAll] = useState(false);
@@ -52,15 +56,16 @@ function CheckboxFiltersGroup({
             <Skeleton key={idx} className="h-6  w-full rounded-md" />
           ))}
         </div>
+        <Skeleton className="h-6 w-1/2 mt-3 rounded-md" />
       </div>
     );
   }
 
-  const calcItems = showAll
+  const list = showAll
     ? items.filter((item) =>
         item.text.toLowerCase().includes(searchValue.toLowerCase()),
       )
-    : defaultItems.slice(0, limit);
+    : items.slice(0, limit);
 
   return (
     <div className={className}>
@@ -78,16 +83,21 @@ function CheckboxFiltersGroup({
       )}
 
       <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
-        {calcItems.map((item, idx) => (
-          <FilterCheckbox
-            key={idx}
-            checked={false}
-            text={item.text}
-            value={item.value}
-            endAdornment={item.endAdornment}
-            onCheckedChange={(v) => console.log(v)}
-          />
-        ))}
+        {list.length > 0 ? (
+          list.map((item, idx) => (
+            <FilterCheckbox
+              key={idx}
+              name={name}
+              checked={selectedValues.has(item.value)}
+              text={item.text}
+              value={item.value}
+              endAdornment={item.endAdornment}
+              onCheckedChange={() => onClickCheckbox(item.value)}
+            />
+          ))
+        ) : (
+          <div className="text-gray-500">Особенности не найдены</div>
+        )}
       </div>
 
       {items.length > limit && (
