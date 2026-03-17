@@ -16,7 +16,7 @@ interface Props {
   items: Item[];
   limit?: number;
   searchInputPlaceholder?: string;
-  loading: boolean;
+  loading?: boolean;
   onClickCheckbox: (id: string) => void;
   defaultValue?: string[];
   selectedValues: Set<string>;

@@ -4,16 +4,10 @@ import { Feature } from "../generated/prisma/client";
 
 import { API } from "./services/api-client";
 
-type UseFilterFeaturesResult = {
-  features: Feature[];
-  selectedIds: Set<string>;
-  toggleId: (id: string) => void;
-};
+type UseSetResult = [Set<string>, (id: string) => void];
 
-export function useFilterFeatures(): UseFilterFeaturesResult {
-  const [features, setFeatures] = useState<Feature[]>([]);
-
-  const [selectedIds, setSelectedIds] = useState(new Set<string>());
+export function useSet(init: Set<string>): UseSetResult {
+  const [selectedIds, setSelectedIds] = useState(init);
 
   const toggleId = useCallback((id: string) => {
     setSelectedIds((prev) => {
@@ -26,6 +20,20 @@ export function useFilterFeatures(): UseFilterFeaturesResult {
       return newSet;
     });
   }, []);
+
+  return [selectedIds, toggleId];
+}
+
+type UseFilterFeaturesResult = {
+  features: Feature[];
+  selectedFeatures: Set<string>;
+  toggleId: (id: string) => void;
+};
+
+export function useFilterFeatures(): UseFilterFeaturesResult {
+  const [features, setFeatures] = useState<Feature[]>([]);
+
+  const [selectedFeatures, toggleId] = useSet(new Set<string>());
 
   useEffect(() => {
     async function fetchFeatures() {
@@ -40,5 +48,5 @@ export function useFilterFeatures(): UseFilterFeaturesResult {
     fetchFeatures();
   }, []);
 
-  return { features, selectedIds, toggleId };
+  return { features, selectedFeatures, toggleId };
 }
