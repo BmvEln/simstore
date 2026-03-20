@@ -3,6 +3,12 @@ import { useCallback, useEffect, useState } from "react";
 import { Feature } from "../generated/prisma/client";
 
 import { API } from "./services/api-client";
+import {
+  ReadonlyURLSearchParams,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+import qs from "qs";
 
 type UseSetResult = [Set<string>, (id: string) => void];
 
@@ -26,27 +32,93 @@ export function useSet(init: Set<string>): UseSetResult {
 
 type UseFilterFeaturesResult = {
   features: Feature[];
-  selectedFeatures: Set<string>;
-  toggleId: (id: string) => void;
+  loading: boolean;
 };
-
 export function useFilterFeatures(): UseFilterFeaturesResult {
   const [features, setFeatures] = useState<Feature[]>([]);
-
-  const [selectedFeatures, toggleId] = useSet(new Set<string>());
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     async function fetchFeatures() {
       try {
         const data = await API.features.getAll();
         setFeatures(data);
       } catch (error) {
         console.error("Ошибка при загрузке особенностей:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
     fetchFeatures();
   }, []);
 
-  return { features, selectedFeatures, toggleId };
+  return { features, loading };
+}
+
+type UseFiltersResult = {
+  features: Set<string>;
+  editions: Set<string>;
+  access: Set<string>;
+  priceRange: PriceRangeProps;
+
+  toggleFeature: (id: string) => void;
+  toggleEdition: (id: string) => void;
+  toggleAccess: (id: string) => void;
+  setPriceRange: (range: PriceRangeProps) => void;
+};
+type PriceRangeProps = {
+  from?: number;
+  to?: number;
+};
+function getValueKeyURL(searchParams: ReadonlyURLSearchParams, value: string) {
+  return searchParams.has(value) ? searchParams.get(value)?.split(",") : [];
+}
+
+export function useFilters(): UseFiltersResult {
+  const searchParams = useSearchParams();
+
+  const [selectedFeatures, toggleFeature] = useSet(
+    new Set<string>(getValueKeyURL(searchParams, "features")),
+  );
+  const [selectedEditions, toggleEdition] = useSet(
+    new Set<string>(getValueKeyURL(searchParams, "edition")),
+  );
+  const [selectedAccess, toggleAccess] = useSet(
+    new Set<string>(getValueKeyURL(searchParams, "access")),
+  );
+
+  const [priceRange, setPriceRange] = useState<PriceRangeProps>({
+    from: Number(searchParams.get("from")) || undefined,
+    to: Number(searchParams.get("to")) || undefined,
+  });
+
+  return {
+    features: selectedFeatures,
+    editions: selectedEditions,
+    access: selectedAccess,
+    priceRange,
+
+    toggleFeature,
+    toggleEdition,
+    toggleAccess,
+    setPriceRange,
+  };
+}
+
+export function useQueryFilters(filters: UseFiltersResult) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const params = {
+      ...filters.priceRange,
+      edition: Array.from(filters.editions),
+      access: Array.from(filters.access),
+      features: Array.from(filters.features),
+    };
+
+    const qsStr = qs.stringify(params, { arrayFormat: "comma" });
+    router.push(`?${qsStr}`, { scroll: false });
+  }, [filters]);
 }

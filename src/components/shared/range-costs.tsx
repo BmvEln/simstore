@@ -7,7 +7,7 @@ import { Slider } from "@/components/ui/slider";
 
 const MAX_PRICE = 5000;
 
-type PriceRange = { from: number; to: number };
+type PriceRange = { from?: number; to?: number };
 
 type RangeCosts = {
   priceRange: PriceRange;
@@ -51,7 +51,8 @@ function RangeCosts({ priceRange, setPriceRange }: RangeCosts) {
 
       <Slider
         defaultValue={[priceRange.from, priceRange.to]}
-        value={[priceRange.from, priceRange.to]}
+        value={[priceRange.from || 0, priceRange.to || 5000]}
+        min={0}
         max={MAX_PRICE}
         step={100}
         className="w-full"

@@ -1,13 +1,12 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React from "react";
 
 import { cn } from "@/lib/utils";
 
-import { useFilterFeatures, useSet } from "@/hooks";
+import { useFilterFeatures, useFilters, useQueryFilters } from "@/hooks";
 
 import Title from "@/components/shared/title";
-import FilterCheckbox from "@/components/shared/filter-checkbox";
 
 import RangeCosts from "./range-costs";
 import CheckboxFiltersGroup from "./checkbox-filters-group";
@@ -17,29 +16,17 @@ interface Props {
   children?: React.ReactNode;
 }
 
-interface PriceRangeProps {
-  from: number;
-  to: number;
-}
-
 function Filters({ className }: Props) {
-  const { features, selectedFeatures, toggleId } = useFilterFeatures();
-  const [selectedEditions, toggleEdition] = useSet(new Set<string>());
-  const [selectedAccess, toggleAccess] = useSet(new Set<string>());
+  const { features, loading } = useFilterFeatures();
 
-  const [priceRange, setPriceRange] = useState<PriceRangeProps>({
-    from: 0,
-    to: 5000,
-  });
+  const filters = useFilters();
+
+  useQueryFilters(filters);
 
   const featuresMap = features.map((f) => ({
     text: f.name,
     value: f.id.toString(),
   }));
-
-  useEffect(() => {
-    console.log(selectedFeatures, selectedEditions, selectedAccess, priceRange);
-  }, [selectedFeatures, selectedEditions, selectedAccess, priceRange]);
 
   return (
     <div className={cn("", className)}>
@@ -54,8 +41,8 @@ function Filters({ className }: Props) {
           { text: "Deluxe", value: "2" },
           { text: "Ultimate", value: "3" },
         ]}
-        onClickCheckbox={toggleEdition}
-        selectedValues={selectedEditions}
+        onClickCheckbox={filters.toggleEdition}
+        selectedValues={filters.editions}
       />
 
       <CheckboxFiltersGroup
@@ -66,12 +53,15 @@ function Filters({ className }: Props) {
           { text: "Платные", value: "1" },
           { text: "Бесплатные", value: "2" },
         ]}
-        onClickCheckbox={toggleAccess}
-        selectedValues={selectedAccess}
+        onClickCheckbox={filters.toggleAccess}
+        selectedValues={filters.access}
       />
 
       <div className="mt-5 border-y border-y-neutral py-6 pb-7">
-        <RangeCosts priceRange={priceRange} setPriceRange={setPriceRange} />
+        <RangeCosts
+          priceRange={filters.priceRange}
+          setPriceRange={filters.setPriceRange}
+        />
 
         <CheckboxFiltersGroup
           name="features"
@@ -79,9 +69,9 @@ function Filters({ className }: Props) {
           className="mt-5"
           limit={2}
           items={featuresMap}
-          loading={!features.length}
-          onClickCheckbox={toggleId}
-          selectedValues={selectedFeatures}
+          loading={loading}
+          onClickCheckbox={filters.toggleFeature}
+          selectedValues={filters.features}
         />
       </div>
     </div>
