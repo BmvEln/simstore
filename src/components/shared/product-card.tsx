@@ -1,8 +1,11 @@
 import React from "react";
-import Title from "./title";
 import Link from "next/link";
 import Image from "next/image";
+
 import { IMG } from "@/static/img";
+import { ProductCardProps } from "@/static/types";
+
+import Title from "./title";
 
 interface RowInfoProps {
   title: string;
@@ -26,28 +29,20 @@ function RowInfo({ title, children }: RowInfoProps) {
   );
 }
 
-export interface ProductCardProps {
-  id: number;
-  name: string;
-  desc: string;
-  price: number;
-  date: string;
-  developer: string;
-  rating: number;
-  className?: string;
-}
-
 function ProductCard({
   id,
   name,
   desc,
-  price,
   date,
   developer,
   rating,
+  variants,
   className,
 }: ProductCardProps) {
   const displayDesc = desc.length > 80 ? desc.slice(0, 80) + "..." : desc;
+  const formatDate = (dateStr: Date) => {
+    return new Date(dateStr).toLocaleDateString("ru-RU");
+  };
 
   return (
     <div className="flex border rounded-lg overflow-hidden">
@@ -62,7 +57,7 @@ function ProductCard({
         <div className="text-lg">Метки</div>
 
         <RowInfo title="Дата выпуска">
-          <div className="font-bold">{date}</div>
+          <div className="font-bold">{formatDate(date)}</div>
         </RowInfo>
 
         <RowInfo title="Разработчик">
@@ -73,7 +68,7 @@ function ProductCard({
           <div className="font-bold">{RATING_LIST[rating]}</div>
         </RowInfo>
         <RowInfo title="Цена">
-          <div className="font-bold">{price} руб.</div>
+          <div className="font-bold">от {variants[0].price} руб.</div>
         </RowInfo>
       </div>
     </div>

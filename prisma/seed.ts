@@ -131,7 +131,7 @@ async function up() {
         productId: s01.id,
         // Базовая игра
         editionType: 1,
-        price: 490,
+        price: 590,
       },
       {
         productId: s01.id,

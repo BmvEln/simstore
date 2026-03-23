@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { Feature } from "../generated/prisma/client";
+import { Feature, Product } from "../generated/prisma/client";
 
 import { API } from "./services/api-client";
 import {

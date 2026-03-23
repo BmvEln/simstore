@@ -3,10 +3,13 @@
 import React, { useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
 
+import { ProductCardProps } from "@/static/types";
+
 import { useCategoryStore } from "@/store/category";
 
+import ProductCard from "./product-card";
+
 import Title from "./title";
-import ProductCard, { ProductCardProps } from "./product-card";
 
 type Item = ProductCardProps;
 
@@ -41,7 +44,7 @@ function ProductGroup({ title, items, categoryId, className }: Props) {
         <Title text={title} size="lg" className="font-extrabold mb-5" />
       </div>
 
-      <div className="grid grid-cols-2 gap-[20px]">
+      <div className="grid grid-cols-2 gap-5">
         {items.map((item) => (
           <ProductCard key={item.id} {...item} />
         ))}
