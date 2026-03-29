@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 
 import { useFilterFeatures, useFilters, useQueryFilters } from "@/hooks";
 
+import { EDITION_NAMES } from "@/static/const";
+
 import Title from "@/components/shared/title";
 
 import RangeCosts from "./range-costs";
@@ -36,11 +38,10 @@ function Filters({ className }: Props) {
         name="edition"
         title="Тип издания"
         className="mb-5"
-        items={[
-          { text: "Standard", value: "1" },
-          { text: "Deluxe", value: "2" },
-          { text: "Ultimate", value: "3" },
-        ]}
+        items={Object.entries(EDITION_NAMES).map(([k, v], i) => ({
+          text: v,
+          value: String(k),
+        }))}
         onClickCheckbox={filters.toggleEdition}
         selectedValues={filters.editions}
       />
