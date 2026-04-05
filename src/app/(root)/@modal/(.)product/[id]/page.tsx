@@ -1,13 +1,6 @@
 import React from "react";
-import Image from "next/image";
 
 import { notFound } from "next/navigation";
-import { IMG } from "@/static/img";
-import Title from "@/components/shared/title";
-import Container from "@/components/shared/container";
-import GroupVariants from "@/components/shared/group-variants";
-import { EDITION_NAMES } from "@/static/const";
-import { Dialog } from "@/components/ui/dialog";
 import ChooseProductModal from "@/components/shared/modals/choose-product-modal";
 
 type ProductModalPage = {

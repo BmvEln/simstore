@@ -1,4 +1,4 @@
-import { ProductVariant } from "../../generated/prisma/client";
+import { Prisma, ProductVariant } from "../../generated/prisma/client";
 
 export type ProductCardProps = {
   id: number;
@@ -10,3 +10,10 @@ export type ProductCardProps = {
   rating: number;
   className?: string;
 };
+
+export type ProductWithRelations = Prisma.ProductGetPayload<{
+  include: {
+    variants: true;
+    features: true;
+  };
+}>;

@@ -5,7 +5,7 @@ import { useIntersection } from "react-use";
 
 import { ProductCardProps } from "@/static/types";
 
-import { useCategoryStore } from "@/store/category";
+import { useCategoryStore } from "../../store/category";
 
 import ProductCard from "./product-card";
 

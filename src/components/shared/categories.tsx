@@ -2,11 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
+
 import { cn } from "@/lib/utils";
 
 import { Category } from "../../../generated/prisma/client";
 
-import { useCategoryStore } from "@/store/category";
+import { useCategoryStore } from "../../store/category";
 
 interface Props {
   items: Category[];

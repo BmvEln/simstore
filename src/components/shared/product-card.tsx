@@ -45,9 +45,18 @@ function ProductCard({
   };
 
   return (
-    <div className="flex border rounded-lg overflow-hidden">
-      <Link className="cursor-pointer" href={`/product/${id}`}>
-        <Image src={IMG.s01} width={363} height={448} alt="" priority />
+    <div className="flex border rounded-lg overflow-hidden bg-gray-50">
+      <Link
+        className="cursor-pointer flex items-center"
+        href={`/product/${id}`}
+      >
+        <Image
+          src={IMG[`s${String(id).padStart(2, "0")}`]}
+          width={363}
+          height={448}
+          alt=""
+          priority
+        />
       </Link>
 
       <div className="p-3">

@@ -38,8 +38,8 @@ function Filters({ className }: Props) {
         name="edition"
         title="Тип издания"
         className="mb-5"
-        items={Object.entries(EDITION_NAMES).map(([k, v], i) => ({
-          text: v,
+        items={Object.entries(EDITION_NAMES).map(([k, v]) => ({
+          text: v.name,
           value: String(k),
         }))}
         onClickCheckbox={filters.toggleEdition}

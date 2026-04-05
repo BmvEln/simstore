@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { Feature, Product } from "../generated/prisma/client";
-
-import { API } from "./services/api-client";
+import qs from "qs";
 import {
   ReadonlyURLSearchParams,
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import qs from "qs";
+
+import { Feature } from "../generated/prisma/client";
+
+import { API } from "./services/api-client";
 
 type UseSetResult = [Set<string>, (id: string) => void];
 

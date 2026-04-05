@@ -1,4 +1,6 @@
-import React from "react";
+// "use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 
 import { notFound } from "next/navigation";
@@ -14,6 +16,8 @@ type ProductPageProps = {
 
 async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
+
+  const [editionType, setEditionType] = useState<number>(1);
 
   const product = await prisma?.product.findUnique({
     where: {
@@ -32,7 +36,12 @@ async function ProductPage({ params }: ProductPageProps) {
   return (
     <Container className="flex flex-col my-10">
       <div className="flex gap-30">
-        <Image src={IMG.s01} width={363} height={448} alt="" />
+        <Image
+          src={IMG[`s${String(id).padStart(2, "0")}` as keyof typeof IMG]}
+          width={363}
+          height={448}
+          alt=""
+        />
 
         <div className="w-[490px] bg-gray-200 p-7">
           <Title
@@ -42,12 +51,15 @@ async function ProductPage({ params }: ProductPageProps) {
           />
 
           <GroupVariants
-            selectedValue="3"
+            value={String(editionType)}
             items={product.variants.map((v) => ({
-              name: EDITION_NAMES[v.editionType],
-              value: v.id.toString(),
+              name: EDITION_NAMES[v.editionType as keyof typeof EDITION_NAMES]
+                .name,
+              value: v.editionType.toString(),
+              tip: EDITION_NAMES[v.editionType as keyof typeof EDITION_NAMES]
+                .desc,
             }))}
-            // onClick={() => {}}
+            // onClick={(v) => setEditionType(Number(v))}
           />
         </div>
       </div>
