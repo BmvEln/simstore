@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback, useState } from "react";
 import Image from "next/image";
 
@@ -32,6 +34,13 @@ function ChooseProductForm({
   className,
 }: ChooseProductForm) {
   const [editionType, setEditionType] = useState<number>(1);
+
+  const items = Object.values(EDITION_NAMES).map(({ name, desc }, i) => ({
+    name,
+    value: variants[i]?.editionType.toString(),
+    tip: desc,
+    disabled: !variants[i],
+  }));
 
   const onClickHandler = useCallback(() => {
     onClickAdd?.();
@@ -68,13 +77,7 @@ function ChooseProductForm({
         <GroupVariants
           className="mb-5"
           value={String(editionType)}
-          items={variants.map((v) => ({
-            name: EDITION_NAMES[v.editionType as keyof typeof EDITION_NAMES]
-              .name,
-            value: v.editionType.toString(),
-            tip: EDITION_NAMES[v.editionType as keyof typeof EDITION_NAMES]
-              .desc,
-          }))}
+          items={items}
           onClick={(v) => setEditionType(Number(v))}
         />
 

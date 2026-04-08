@@ -1,6 +1,6 @@
 // "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 import { notFound } from "next/navigation";
@@ -17,7 +17,7 @@ type ProductPageProps = {
 async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
 
-  const [editionType, setEditionType] = useState<number>(1);
+  // const [editionType, setEditionType] = useState<number>(1);
 
   const product = await prisma?.product.findUnique({
     where: {
@@ -51,7 +51,7 @@ async function ProductPage({ params }: ProductPageProps) {
           />
 
           <GroupVariants
-            value={String(editionType)}
+            // value={String(editionType)}
             items={product.variants.map((v) => ({
               name: EDITION_NAMES[v.editionType as keyof typeof EDITION_NAMES]
                 .name,
