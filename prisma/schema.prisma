@@ -87,7 +87,7 @@ model Cart {
 
   token     String
 
-  cartItems CartItem[]
+  items CartItem[]
 
   totalAmount  Int @default(0)
 

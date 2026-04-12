@@ -1,4 +1,9 @@
-import { Prisma, ProductVariant } from "../../generated/prisma/client";
+import {
+  Cart,
+  Prisma,
+  Product,
+  ProductVariant,
+} from "../../generated/prisma/client";
 
 export type ProductCardProps = {
   id: number;
@@ -17,3 +22,19 @@ export type ProductWithRelations = Prisma.ProductGetPayload<{
     features: true;
   };
 }>;
+
+export interface CartPromise extends Cart {
+  items: {
+    productVariant: ProductVariant & {
+      product: Product;
+    };
+  }[];
+}
+
+export type CartStateItem = {
+  id: number;
+  quantity: number;
+  name: string;
+  price: number;
+  editionType: number;
+};

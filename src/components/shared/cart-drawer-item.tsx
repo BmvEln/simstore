@@ -2,7 +2,23 @@ import React from "react";
 import Image from "next/image";
 
 import { IMG } from "@/static/img";
+
 import { EDITION_NAMES } from "@/static/const";
+
+type ButtonQuantityProps = {
+  content: string;
+  onClick: () => void;
+};
+function ButtonQuantity({ content, onClick }: ButtonQuantityProps) {
+  return (
+    <div
+      onClick={() => onClick()}
+      className="flex text-xs items-center justify-center border rounded-[4px] w-6 h-6 cursor-pointer hover:bg-neutral-100 transition-all duration-200"
+    >
+      {content}
+    </div>
+  );
+}
 
 interface Props {
   name: string;
@@ -35,7 +51,11 @@ function CartDrawerItem({ name, editionType, price, quantity }: Props) {
 
       <div className="flex justify-between">
         <div>{price} ₽</div>
-        <div>- {quantity} +</div>
+        <div className="flex gap-2 items-center">
+          <ButtonQuantity content="-" onClick={() => {}} />
+          {quantity}
+          <ButtonQuantity content="+" onClick={() => {}} />
+        </div>
       </div>
     </div>
   );

@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/lib/*": ["./lib/*"],
-      "@/store/*": ["src/store/*"],
+      "@/store/*": ["./src/store/*"],
       "@/*": ["./src/*"]
     }
   },
