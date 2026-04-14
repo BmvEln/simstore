@@ -38,7 +38,7 @@ function CartDrawer({ children }: Props) {
         <div className="flex flex-col h-[calc(100%-164px)]">
           <SheetHeader>
             <SheetTitle className="text-lg whitespace-nowrap">
-              В корзине 1 товар на сумму {totalAmount} ₽
+              В корзине {items.length} товар на сумму {totalAmount} ₽
             </SheetTitle>
           </SheetHeader>
 
