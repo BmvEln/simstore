@@ -39,6 +39,14 @@ export async function PATCH(req: NextRequest) {
   try {
     const { id, quantity } = await req.json();
 
+    if (quantity < 1) {
+      return NextResponse.json({ error: "Количество не может быть меньше 1" });
+    }
+
+    if (!id) {
+      return NextResponse.json({ error: "Не указан id" });
+    }
+
     const token = req.cookies.get("cartToken")?.value;
 
     if (!token) {
@@ -89,7 +97,7 @@ export async function PATCH(req: NextRequest) {
       0,
     );
 
-    await prisma.cart.update({
+    const updatedCart = await prisma.cart.update({
       where: { id: cart.id },
       data: { totalAmount },
       include: {
@@ -108,9 +116,7 @@ export async function PATCH(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({
-      message: "Корзина обновлена успешно",
-    });
+    return NextResponse.json(updatedCart);
   } catch (error) {
     console.log("Ошибка при обновлении корзины", error);
     return NextResponse.json(

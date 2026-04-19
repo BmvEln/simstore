@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 
@@ -25,9 +27,16 @@ interface Props {
   editionType: number;
   price: number;
   quantity: number;
+  onClickCount: (type: "plus" | "minus") => void;
 }
 
-function CartDrawerItem({ name, editionType, price, quantity }: Props) {
+function CartDrawerItem({
+  name,
+  editionType,
+  price,
+  quantity,
+  onClickCount,
+}: Props) {
   return (
     <div className="bg-white px-4 py-3">
       <div className="flex gap-4 items-center">
@@ -52,9 +61,9 @@ function CartDrawerItem({ name, editionType, price, quantity }: Props) {
       <div className="flex justify-between">
         <div>{price} ₽</div>
         <div className="flex gap-2 items-center">
-          <ButtonQuantity content="-" onClick={() => {}} />
+          <ButtonQuantity content="-" onClick={() => onClickCount("minus")} />
           {quantity}
-          <ButtonQuantity content="+" onClick={() => {}} />
+          <ButtonQuantity content="+" onClick={() => onClickCount("plus")} />
         </div>
       </div>
     </div>

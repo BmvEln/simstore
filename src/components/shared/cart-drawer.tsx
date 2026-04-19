@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -24,11 +24,22 @@ interface Props {
 }
 
 function CartDrawer({ children }: Props) {
-  const { fetchCartItems, items, totalAmount } = useCartStore((state) => state);
+  const { getCartItems, items, totalAmount, updateItemQuantity } = useCartStore(
+    (state) => state,
+  );
 
   useEffect(() => {
-    fetchCartItems();
+    getCartItems();
   }, []);
+
+  const onClickCount = useCallback(
+    (id: number, quantity: number, type: "plus" | "minus") => {
+      const newQuantity = type === "minus" ? quantity - 1 : quantity + 1;
+
+      updateItemQuantity(id, newQuantity);
+    },
+    [],
+  );
 
   return (
     <Sheet>
@@ -50,6 +61,9 @@ function CartDrawer({ children }: Props) {
                 editionType={item.editionType}
                 price={item.price}
                 quantity={item.quantity}
+                onClickCount={(type) =>
+                  onClickCount(item.id, item.quantity, type)
+                }
               />
             ))}
           </div>
