@@ -24,9 +24,13 @@ interface Props {
 }
 
 function CartDrawer({ children }: Props) {
-  const { getCartItems, items, totalAmount, updateItemQuantity } = useCartStore(
-    (state) => state,
-  );
+  const {
+    items,
+    totalAmount,
+    getCartItems,
+    updateItemQuantity,
+    removeCartItem,
+  } = useCartStore((state) => state);
 
   useEffect(() => {
     getCartItems();
@@ -40,6 +44,10 @@ function CartDrawer({ children }: Props) {
     },
     [],
   );
+
+  const onClickRemove = useCallback((id: number) => {
+    removeCartItem(id);
+  }, []);
 
   return (
     <Sheet>
@@ -64,6 +72,7 @@ function CartDrawer({ children }: Props) {
                 onClickCount={(type) =>
                   onClickCount(item.id, item.quantity, type)
                 }
+                onClickRemove={() => onClickRemove(item.id)}
               />
             ))}
           </div>

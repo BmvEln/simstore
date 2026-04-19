@@ -35,6 +35,8 @@ export async function GET(req: NextRequest) {
   }
 }
 
+// TODO: Передавать в REST-стильный подход для отдельного ресурса для методов (PATCH, DELETE):
+// /api/cart/[id]
 export async function PATCH(req: NextRequest) {
   try {
     const { id, quantity } = await req.json();
@@ -122,6 +124,94 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json(
       {
         message: "Ошибка при обновлении корзины",
+      },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { id } = await req.json();
+
+    if (!id) {
+      return NextResponse.json({ error: "Не указан id" });
+    }
+
+    const token = req.cookies.get("cartToken")?.value;
+
+    if (!token) {
+      return NextResponse.json({
+        error: "Токен корзины не найден",
+      });
+    }
+
+    const cartItem = await prisma.cartItem.findFirst({
+      where: { id },
+    });
+
+    if (!cartItem) {
+      return NextResponse.json({ error: "Товар не найден" });
+    }
+
+    await prisma.cartItem.delete({
+      where: { id },
+    });
+
+    const cart = await prisma.cart.findFirst({
+      where: {
+        token,
+      },
+      include: {
+        items: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          include: {
+            productVariant: {
+              include: {
+                product: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!cart) {
+      return NextResponse.json({ error: "Корзина не найдена" });
+    }
+
+    const totalAmount = cart.items.reduce(
+      (acc, item) => acc + item.productVariant.price * item.quantity,
+      0,
+    );
+
+    const updatedCart = await prisma.cart.update({
+      where: { id: cart.id },
+      data: { totalAmount },
+      include: {
+        items: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          include: {
+            productVariant: {
+              include: {
+                product: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(updatedCart);
+  } catch (error) {
+    console.log("Ошибка при удалении товара из корзины", error);
+    return NextResponse.json(
+      {
+        message: "Ошибка при удалении товара из корзины",
       },
       { status: 500 },
     );

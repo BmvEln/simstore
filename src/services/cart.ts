@@ -4,18 +4,24 @@ import { instance } from "./instance";
 
 // /api/cart
 export const getCart = async (): Promise<CartPromise> => {
-  const response = await instance.get<CartPromise>(ApiRoutes.CART);
-
-  return response.data;
+  return (await instance.get<CartPromise>(ApiRoutes.CART)).data;
 };
 
 export const updateItemQuantity = async (
   id: number,
   quantity: number,
 ): Promise<CartPromise> => {
-  const response = await instance.patch<CartPromise>(ApiRoutes.CART, {
-    id,
-    quantity,
+  return (
+    await instance.patch<CartPromise>(ApiRoutes.CART, {
+      id,
+      quantity,
+    })
+  ).data;
+};
+
+export const removeCartItem = async (id: number): Promise<CartPromise> => {
+  const response = await instance.delete<CartPromise>(ApiRoutes.CART, {
+    data: { id },
   });
 
   return response.data;
