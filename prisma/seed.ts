@@ -267,6 +267,12 @@ async function up() {
         quantity: 5,
       },
       {
+        cartId: 1,
+        productVariantId: 3,
+        quantity: 1,
+      },
+
+      {
         cartId: 2,
         productVariantId: 21,
         quantity: 2,

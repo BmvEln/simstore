@@ -1,5 +1,59 @@
-import { prisma } from "@/lib/prisma";
+import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
+
+import { prisma } from "@/lib/prisma";
+
+async function updateCart(token: string) {
+  const cart = await prisma.cart.findFirst({
+    where: {
+      token,
+    },
+    include: {
+      items: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          productVariant: {
+            include: {
+              product: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!cart) {
+    return NextResponse.json({ error: "Корзина не найдена" });
+  }
+
+  const totalAmount = cart.items.reduce(
+    (acc, item) => acc + item.productVariant.price * item.quantity,
+    0,
+  );
+
+  const updatedCart = await prisma.cart.update({
+    where: { id: cart.id },
+    data: { totalAmount },
+    include: {
+      items: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          productVariant: {
+            include: {
+              product: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return updatedCart;
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -35,7 +89,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// TODO: Передавать в REST-стильный подход для отдельного ресурса для методов (PATCH, DELETE):
+// TODO: Переделать в REST-стильный подход (отдельный ресурс) для методов (PATCH, DELETE):
 // /api/cart/[id]
 export async function PATCH(req: NextRequest) {
   try {
@@ -70,53 +124,7 @@ export async function PATCH(req: NextRequest) {
       data: { quantity },
     });
 
-    const cart = await prisma.cart.findFirst({
-      where: {
-        token,
-      },
-      include: {
-        items: {
-          orderBy: {
-            createdAt: "desc",
-          },
-          include: {
-            productVariant: {
-              include: {
-                product: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    if (!cart) {
-      return NextResponse.json({ error: "Корзина не найдена" });
-    }
-
-    const totalAmount = cart.items.reduce(
-      (acc, item) => acc + item.productVariant.price * item.quantity,
-      0,
-    );
-
-    const updatedCart = await prisma.cart.update({
-      where: { id: cart.id },
-      data: { totalAmount },
-      include: {
-        items: {
-          orderBy: {
-            createdAt: "desc",
-          },
-          include: {
-            productVariant: {
-              include: {
-                product: true,
-              },
-            },
-          },
-        },
-      },
-    });
+    const updatedCart = await updateCart(token);
 
     return NextResponse.json(updatedCart);
   } catch (error) {
@@ -158,53 +166,7 @@ export async function DELETE(req: NextRequest) {
       where: { id },
     });
 
-    const cart = await prisma.cart.findFirst({
-      where: {
-        token,
-      },
-      include: {
-        items: {
-          orderBy: {
-            createdAt: "desc",
-          },
-          include: {
-            productVariant: {
-              include: {
-                product: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    if (!cart) {
-      return NextResponse.json({ error: "Корзина не найдена" });
-    }
-
-    const totalAmount = cart.items.reduce(
-      (acc, item) => acc + item.productVariant.price * item.quantity,
-      0,
-    );
-
-    const updatedCart = await prisma.cart.update({
-      where: { id: cart.id },
-      data: { totalAmount },
-      include: {
-        items: {
-          orderBy: {
-            createdAt: "desc",
-          },
-          include: {
-            productVariant: {
-              include: {
-                product: true,
-              },
-            },
-          },
-        },
-      },
-    });
+    const updatedCart = await updateCart(token);
 
     return NextResponse.json(updatedCart);
   } catch (error) {
@@ -215,5 +177,66 @@ export async function DELETE(req: NextRequest) {
       },
       { status: 500 },
     );
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    let token = req.cookies.get("cartToken")?.value;
+
+    if (!token) {
+      token = crypto.randomUUID();
+    }
+
+    let userCart = await prisma.cart.findFirst({
+      where: {
+        token,
+      },
+    });
+
+    if (!userCart) {
+      userCart = await prisma.cart.create({
+        data: {
+          token,
+        },
+      });
+    }
+
+    const data = (await req.json()) as { productVariantId: number };
+
+    const cartItem = await prisma.cartItem.findFirst({
+      where: {
+        cartId: userCart.id,
+        productVariantId: data.productVariantId,
+      },
+    });
+
+    if (cartItem) {
+      await prisma.cartItem.update({
+        where: {
+          id: cartItem.id,
+        },
+        data: {
+          quantity: cartItem.quantity + 1,
+        },
+      });
+    }
+
+    await prisma.cartItem.create({
+      data: {
+        cartId: userCart.id,
+        productVariantId: data.productVariantId,
+        quantity: 1,
+      },
+    });
+
+    const updatedCart = await updateCart(token);
+
+    const resp = NextResponse.json(updatedCart);
+    resp.cookies.set("cartToken", token);
+
+    return resp;
+  } catch (error) {
+    console.log("POST", error);
   }
 }
