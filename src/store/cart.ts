@@ -13,8 +13,7 @@ export type CartStore = {
   items: CartItem[];
   getCartItems: () => Promise<void>;
   updateItemQuantity: (id: number, quantity: number) => Promise<void>;
-  // TODO: Использовать другой тип вместо any
-  addCartItem: (values: any) => Promise<void>;
+  addCartItem: (productVariantId: number) => Promise<void>;
   removeCartItem: (id: number) => Promise<void>;
 };
 
@@ -28,6 +27,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
     try {
       set({ loading: true, error: false });
       const data = await API.cart.getCart();
+      // TODO: Проверить типизацию
       set(getCartDetails(data));
     } catch (error) {
       set({ error: true });
@@ -46,7 +46,17 @@ export const useCartStore = create<CartStore>((set, get) => ({
       set({ loading: false });
     }
   },
-  addCartItem: async (values: any) => {},
+  addCartItem: async (productVariantId: number) => {
+    set({ loading: true, error: false });
+    try {
+      const data = await API.cart.addCartItem(productVariantId);
+      set(getCartDetails(data));
+    } catch (error) {
+      set({ error: true });
+    } finally {
+      set({ loading: false });
+    }
+  },
   removeCartItem: async (id: number) => {
     set({ loading: true, error: false });
     try {

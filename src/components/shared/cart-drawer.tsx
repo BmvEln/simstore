@@ -86,7 +86,7 @@ function CartDrawer({ children }: Props) {
             </span>
 
             <span className="font-bold text-lg whitespace-nowrap">
-              {totalAmount} ₽
+              {totalAmount || 0} ₽
             </span>
           </div>
 

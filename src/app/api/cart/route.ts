@@ -222,18 +222,20 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    await prisma.cartItem.create({
-      data: {
-        cartId: userCart.id,
-        productVariantId: data.productVariantId,
-        quantity: 1,
-      },
-    });
+    if (!cartItem) {
+      await prisma.cartItem.create({
+        data: {
+          cartId: userCart.id,
+          productVariantId: data.productVariantId,
+          quantity: 1,
+        },
+      });
+    }
 
     const updatedCart = await updateCart(token);
 
     const resp = NextResponse.json(updatedCart);
-    resp.cookies.set("cartToken", token);
+    resp.cookies.set("cartToken", token, { maxAge: 60 * 60 * 24 * 1 });
 
     return resp;
   } catch (error) {

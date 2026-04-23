@@ -20,9 +20,19 @@ export const updateItemQuantity = async (
 };
 
 export const removeCartItem = async (id: number): Promise<CartPromise> => {
-  const response = await instance.delete<CartPromise>(ApiRoutes.CART, {
-    data: { id },
-  });
+  return (
+    await instance.delete<CartPromise>(ApiRoutes.CART, {
+      data: { id },
+    })
+  ).data;
+};
 
-  return response.data;
+export const addCartItem = async (
+  productVariantId: number,
+): Promise<CartPromise> => {
+  return (
+    await instance.post<CartPromise>(ApiRoutes.CART, {
+      productVariantId,
+    })
+  ).data;
 };

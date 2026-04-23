@@ -20,7 +20,7 @@ type ChooseProductForm = {
   desc: string;
   variants: ProductVariant[];
   features: Feature[];
-  onClickAdd?: VoidFunction;
+  onClickAdd: (productVariantId: number) => void;
   className?: string;
 };
 
@@ -43,10 +43,8 @@ function ChooseProductForm({
   }));
 
   const onClickHandler = useCallback(() => {
-    onClickAdd?.();
-
-    console.log(editionType);
-  }, [editionType]);
+    onClickAdd(variants[editionType - 1].id);
+  }, [variants, editionType]);
 
   return (
     <div className={cn("flex", className)}>
