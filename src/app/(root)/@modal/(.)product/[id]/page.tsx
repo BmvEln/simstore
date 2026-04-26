@@ -1,6 +1,7 @@
 import React from "react";
 
 import { notFound } from "next/navigation";
+
 import ChooseProductModal from "@/components/shared/modals/choose-product-modal";
 
 type ProductModalPage = {

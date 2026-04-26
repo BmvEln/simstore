@@ -38,3 +38,6 @@ export type CartStateItem = {
   price: number;
   editionType: number;
 };
+
+// 1 - error, 2 - success, 3 - info
+export type NotificationStatuses = 1 | 2 | 3 | undefined;

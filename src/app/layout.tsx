@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 
 import { Nunito } from "next/font/google";
 
+import Notification from "@/components/shared/notification";
+
 import "./global.css";
 
 const nunito = Nunito({
@@ -17,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html className={nunito.variable} lang="en">
-      <body className={nunito.className}>{children}</body>
+      <body className={nunito.className}>
+        {children}
+        <Notification />
+      </body>
     </html>
   );
 }
