@@ -2,13 +2,14 @@
 
 import React from "react";
 import Image from "next/image";
-
 import { notFound } from "next/navigation";
+
 import { IMG } from "@/static/img";
+import { EDITION_NAMES } from "@/static/const";
+
 import Title from "@/components/shared/title";
 import Container from "@/components/shared/container";
 import GroupVariants from "@/components/shared/group-variants";
-import { EDITION_NAMES } from "@/static/const";
 
 type ProductPageProps = {
   params: Promise<{ id: string }>;
@@ -16,8 +17,6 @@ type ProductPageProps = {
 
 async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
-
-  // const [editionType, setEditionType] = useState<number>(1);
 
   const product = await prisma?.product.findUnique({
     where: {

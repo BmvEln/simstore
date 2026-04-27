@@ -6,12 +6,13 @@ type ReturnProps = {
 };
 export function getCartDetails(data: CartPromise): ReturnProps {
   const items = data.items.map((item) => {
-    const { id, productVariant, quantity } = item;
+    const { productVariant, quantity } = item;
     const { price, editionType, product } = productVariant;
     const { name } = product;
 
     return {
-      id,
+      productVariantId: productVariant.id,
+      productId: product.id,
       quantity,
       name,
       price: price * quantity,

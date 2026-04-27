@@ -4,18 +4,34 @@ import { NotificationStatuses } from "@/static/types";
 
 type NotificationState = {
   text: string;
-  status: NotificationStatuses;
-  setShow: (text: string, status: NotificationStatuses) => void;
+  status: NotificationStatuses | undefined;
+  showNotification: (
+    text: string,
+    status: NotificationStatuses | undefined,
+  ) => void;
 };
 
-export const useNotificationStore = create<NotificationState>((set) => ({
-  text: "",
-  status: undefined,
-  setShow: (text: string, status: NotificationStatuses) => {
-    set({ text, status });
+export const useNotificationStore = create<NotificationState>((set) => {
+  let timmerId: ReturnType<typeof setTimeout> | null = null;
 
-    setTimeout(() => {
-      set({ text: "", status: undefined });
-    }, 3000);
-  },
-}));
+  return {
+    text: "",
+    status: undefined,
+    showNotification: (
+      text: string,
+      status: NotificationStatuses | undefined,
+    ) => {
+      // очищаем предыдущий таймер
+      if (timmerId) {
+        clearTimeout(timmerId);
+      }
+
+      set({ text, status });
+
+      timmerId = setTimeout(() => {
+        set({ text: "", status: undefined });
+        timmerId = null;
+      }, 3000);
+    },
+  };
+});

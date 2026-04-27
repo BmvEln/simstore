@@ -18,6 +18,7 @@ type ChooseProductForm = {
   id: number;
   name: string;
   desc: string;
+  loading: boolean;
   variants: ProductVariant[];
   features: Feature[];
   onClickAdd: (productVariantId: number) => void;
@@ -28,6 +29,7 @@ function ChooseProductForm({
   id,
   name,
   desc,
+  loading,
   variants,
   features,
   onClickAdd,
@@ -81,7 +83,8 @@ function ChooseProductForm({
 
         <Button
           onClick={onClickHandler}
-          className="h-[55px] px-10 text-base rounded-[18px] w-fit cursor-pointer"
+          loading={loading}
+          className="h-[55px] w-[322px] px-10 text-base rounded-[18px] cursor-pointer"
         >
           Добавить в корзину за {variants[editionType - 1].price} руб.
         </Button>

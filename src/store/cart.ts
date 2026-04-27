@@ -1,8 +1,8 @@
 import { create } from "zustand/react";
 
-import { CartItem } from "../../generated/prisma/client";
-
 import { API } from "@/services/api-client";
+
+import { CartStateItem } from "@/static/types";
 
 import { getCartDetails } from "@/functions/data";
 
@@ -10,7 +10,7 @@ export type CartStore = {
   loading: boolean;
   error: boolean;
   totalAmount: number;
-  items: CartItem[];
+  items: CartStateItem[];
   getCartItems: () => Promise<void>;
   updateItemQuantity: (id: number, quantity: number) => Promise<void>;
   addCartItem: (productVariantId: number) => Promise<void>;
@@ -27,7 +27,6 @@ export const useCartStore = create<CartStore>((set, get) => ({
     try {
       set({ loading: true, error: false });
       const data = await API.cart.getCart();
-      // TODO: Проверить типизацию
       set(getCartDetails(data));
     } catch (error) {
       set({ error: true });

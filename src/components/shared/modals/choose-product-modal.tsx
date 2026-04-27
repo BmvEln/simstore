@@ -14,22 +14,22 @@ import ChooseProductForm from "../choose-product-form";
 
 interface Props {
   product: ProductWithRelations;
-  className?: string;
 }
 
-function ChooseProductModal({ className, product }: Props) {
+function ChooseProductModal({ product }: Props) {
   const router = useRouter();
 
-  const { addCartItem } = useCartStore((state) => state);
-  const { setShow } = useNotificationStore((state) => state);
+  const { loading, addCartItem } = useCartStore((state) => state);
+  const { showNotification } = useNotificationStore((state) => state);
 
   const addCartItemHandler = useCallback(
     async (productVariantId: number) => {
       try {
         await addCartItem(productVariantId);
-        setShow("Продукт добавлен в корзину", 2);
+        showNotification("Продукт добавлен в корзину", 2);
+        router.back();
       } catch (error) {
-        setShow("Продукт НЕ был добавлен в корзину", 1);
+        showNotification("Продукт НЕ был добавлен в корзину", 1);
       }
     },
     [addCartItem],
@@ -47,6 +47,7 @@ function ChooseProductModal({ className, product }: Props) {
         <ChooseProductForm
           key={product.id}
           id={product.id}
+          loading={loading}
           name={product.name}
           desc={product.desc}
           variants={product.variants}

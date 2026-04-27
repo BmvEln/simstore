@@ -31,6 +31,7 @@ function ButtonQuantity({ content, quantity, onClick }: ButtonQuantityProps) {
 }
 
 interface Props {
+  productId: number;
   name: string;
   editionType: number;
   price: number;
@@ -40,6 +41,7 @@ interface Props {
 }
 
 function CartDrawerItem({
+  productId,
   name,
   editionType,
   price,
@@ -49,9 +51,12 @@ function CartDrawerItem({
 }: Props) {
   return (
     <div className="bg-white px-4 py-3">
-      <div className="relative flex gap-4 items-center">
+      <div className="relative flex gap-4 items-center bg-amber-50 border rounded-md">
         <Image
-          src={IMG[`s${String("1").padStart(2, "0")}` as keyof typeof IMG]}
+          className="rounded-l-md"
+          src={
+            IMG[`s${String(productId).padStart(2, "0")}` as keyof typeof IMG]
+          }
           width={100}
           height={100}
           alt=""

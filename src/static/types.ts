@@ -25,6 +25,7 @@ export type ProductWithRelations = Prisma.ProductGetPayload<{
 
 export interface CartPromise extends Cart {
   items: {
+    quantity: number;
     productVariant: ProductVariant & {
       product: Product;
     };
@@ -32,7 +33,8 @@ export interface CartPromise extends Cart {
 }
 
 export type CartStateItem = {
-  id: number;
+  productVariantId: number;
+  productId: number;
   quantity: number;
   name: string;
   price: number;
@@ -40,4 +42,4 @@ export type CartStateItem = {
 };
 
 // 1 - error, 2 - success, 3 - info
-export type NotificationStatuses = 1 | 2 | 3 | undefined;
+export type NotificationStatuses = 1 | 2 | 3;

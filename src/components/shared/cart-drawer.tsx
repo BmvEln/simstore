@@ -64,15 +64,16 @@ function CartDrawer({ children }: Props) {
           <div className="flex flex-col gap-4 overflow-y-auto">
             {items.map((item) => (
               <CartDrawerItem
-                key={item.id}
+                key={item.productVariantId}
+                productId={item.productId}
                 name={item.name}
                 editionType={item.editionType}
                 price={item.price}
                 quantity={item.quantity}
                 onClickCount={(type) =>
-                  onClickCount(item.id, item.quantity, type)
+                  onClickCount(item.productVariantId, item.quantity, type)
                 }
-                onClickRemove={() => onClickRemove(item.id)}
+                onClickRemove={() => onClickRemove(item.productVariantId)}
               />
             ))}
           </div>
