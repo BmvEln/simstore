@@ -51,7 +51,7 @@ function ProductCard({
         href={`/product/${id}`}
       >
         <Image
-          src={IMG[`s${String(id).padStart(2, "0")}`]}
+          src={IMG[`s${String(id).padStart(2, "0")}` as keyof typeof IMG]}
           width={363}
           height={448}
           alt=""

@@ -50,7 +50,7 @@ function RangeCosts({ priceRange, setPriceRange }: RangeCosts) {
       </div>
 
       <Slider
-        defaultValue={[priceRange.from, priceRange.to]}
+        defaultValue={[priceRange.from || 0, priceRange.to || 5000]}
         value={[priceRange.from || 0, priceRange.to || 5000]}
         min={0}
         max={MAX_PRICE}

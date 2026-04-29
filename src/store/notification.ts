@@ -4,11 +4,8 @@ import { NotificationStatuses } from "@/static/types";
 
 type NotificationState = {
   text: string;
-  status: NotificationStatuses | undefined;
-  showNotification: (
-    text: string,
-    status: NotificationStatuses | undefined,
-  ) => void;
+  status: NotificationStatuses;
+  showNotification: (text: string, status: NotificationStatuses) => void;
 };
 
 export const useNotificationStore = create<NotificationState>((set) => {
@@ -16,11 +13,8 @@ export const useNotificationStore = create<NotificationState>((set) => {
 
   return {
     text: "",
-    status: undefined,
-    showNotification: (
-      text: string,
-      status: NotificationStatuses | undefined,
-    ) => {
+    status: 1,
+    showNotification: (text: string, status: NotificationStatuses) => {
       // очищаем предыдущий таймер
       if (timmerId) {
         clearTimeout(timmerId);
@@ -29,7 +23,7 @@ export const useNotificationStore = create<NotificationState>((set) => {
       set({ text, status });
 
       timmerId = setTimeout(() => {
-        set({ text: "", status: undefined });
+        set({ text: "", status: 1 });
         timmerId = null;
       }, 3000);
     },

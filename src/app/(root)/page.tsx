@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { prisma } from "@/lib/prisma";
 
 import Title from "@/components/shared/title";
@@ -33,7 +35,9 @@ export default async function Home() {
       <Container className="mt-10 pb14">
         <div className="flex gap-16">
           <div className="w-[250px] shrink-0">
-            <Filters />
+            <Suspense>
+              <Filters />
+            </Suspense>
           </div>
 
           <div className="flex gap-8 w-full flex-col">

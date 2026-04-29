@@ -49,8 +49,9 @@ async function ProductPage({ params }: ProductPageProps) {
             className="font-extrabold mb-1"
           />
 
-          <GroupVariants
-            // value={String(editionType)}
+          {/* TODO: Доделать отображение */}
+          {/* <GroupVariants
+            value={String(editionType)}
             items={product.variants.map((v) => ({
               name: EDITION_NAMES[v.editionType as keyof typeof EDITION_NAMES]
                 .name,
@@ -58,8 +59,8 @@ async function ProductPage({ params }: ProductPageProps) {
               tip: EDITION_NAMES[v.editionType as keyof typeof EDITION_NAMES]
                 .desc,
             }))}
-            // onClick={(v) => setEditionType(Number(v))}
-          />
+            onClick={(v) => setEditionType(Number(v))}
+          /> */}
         </div>
       </div>
     </Container>
