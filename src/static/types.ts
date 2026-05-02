@@ -43,3 +43,17 @@ export type CartStateItem = {
 
 // 1 - error, 2 - success, 3 - info
 export type NotificationStatuses = 1 | 2 | 3;
+
+export type GetSearchParams = {
+  query: string;
+  sortBy: string;
+  edition: string;
+  rating: string;
+  from: string;
+  to: string;
+  features: string;
+
+  // TODO: Как сделать пагинацию при помощи призмы?
+  // page: string;
+  // limit: string;
+};

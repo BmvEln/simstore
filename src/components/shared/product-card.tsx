@@ -74,7 +74,7 @@ function ProductCard({
         </RowInfo>
 
         <RowInfo title="Отзывы">
-          <div className="font-bold">{RATING_LIST[rating]}</div>
+          <div className="font-bold">{RATING_LIST[rating - 1]}</div>
         </RowInfo>
         <RowInfo title="Цена">
           <div className="font-bold">от {variants[0].price} руб.</div>

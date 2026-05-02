@@ -30,6 +30,8 @@ function Filters({ className }: Props) {
     value: f.id.toString(),
   }));
 
+  console.log(1);
+
   return (
     <div className={cn("", className)}>
       <Title className="mb-5 font-bold" size="sm" text="Фильтрация" />
@@ -47,15 +49,12 @@ function Filters({ className }: Props) {
       />
 
       <CheckboxFiltersGroup
-        name="access"
-        title="Тип доступа"
+        name="rating"
+        title="По рейтингу"
         className="mb-5"
-        items={[
-          { text: "Платные", value: "1" },
-          { text: "Бесплатные", value: "2" },
-        ]}
-        onClickCheckbox={filters.toggleAccess}
-        selectedValues={filters.access}
+        items={[{ text: "Высокий", value: "3,4" }]}
+        onClickCheckbox={filters.toggleRating}
+        selectedValues={filters.rating}
       />
 
       <div className="mt-5 border-y border-y-neutral py-6 pb-7">

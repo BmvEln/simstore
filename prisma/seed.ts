@@ -127,12 +127,13 @@ async function up() {
 
   await prisma.productVariant.createMany({
     data: [
-      {
-        productId: s01.id,
-        // Базовая игра
-        editionType: 1,
-        price: 590,
-      },
+      // TODO: Убран для теста. Позже вернуть
+      // {
+      //   productId: s01.id,
+      //   // Базовая игра
+      //   editionType: 1,
+      //   price: 590,
+      // },
       {
         productId: s01.id,
         // Игра + набор эксклюзивных скинов или пара доп. уровней

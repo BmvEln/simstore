@@ -24,7 +24,7 @@ function CartButton({ className }: Props) {
         className={cn("group relative", { "w-[100px]": loading }, className)}
         variant="outline"
       >
-        <b>{totalAmount} ₽</b>
+        <b>{totalAmount || 0} ₽</b>
 
         <span className="h-full w-[1px] bg-black/50 mx-3" />
 

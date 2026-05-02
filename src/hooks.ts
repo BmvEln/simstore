@@ -61,12 +61,12 @@ export function useFilterFeatures(): UseFilterFeaturesResult {
 type UseFiltersResult = {
   features: Set<string>;
   editions: Set<string>;
-  access: Set<string>;
+  rating: Set<string>;
   priceRange: PriceRangeProps;
 
   toggleFeature: (id: string) => void;
   toggleEdition: (id: string) => void;
-  toggleAccess: (id: string) => void;
+  toggleRating: (id: string) => void;
   setPriceRange: (range: PriceRangeProps) => void;
 };
 type PriceRangeProps = {
@@ -86,8 +86,8 @@ export function useFilters(): UseFiltersResult {
   const [selectedEditions, toggleEdition] = useSet(
     new Set<string>(getValueKeyURL(searchParams, "edition")),
   );
-  const [selectedAccess, toggleAccess] = useSet(
-    new Set<string>(getValueKeyURL(searchParams, "access")),
+  const [selectedRating, toggleRating] = useSet(
+    new Set<string>(getValueKeyURL(searchParams, "rating")),
   );
 
   const [priceRange, setPriceRange] = useState<PriceRangeProps>({
@@ -98,12 +98,12 @@ export function useFilters(): UseFiltersResult {
   return {
     features: selectedFeatures,
     editions: selectedEditions,
-    access: selectedAccess,
+    rating: selectedRating,
     priceRange,
 
     toggleFeature,
     toggleEdition,
-    toggleAccess,
+    toggleRating,
     setPriceRange,
   };
 }
@@ -115,7 +115,7 @@ export function useQueryFilters(filters: UseFiltersResult) {
     const params = {
       ...filters.priceRange,
       edition: Array.from(filters.editions),
-      access: Array.from(filters.access),
+      rating: Array.from(filters.rating),
       features: Array.from(filters.features),
     };
 

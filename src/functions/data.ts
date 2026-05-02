@@ -1,10 +1,10 @@
 import { CartPromise, CartStateItem } from "@/static/types";
 
-type ReturnProps = {
+type GetCartDetailsProps = {
   items: CartStateItem[];
   totalAmount: number;
 };
-export function getCartDetails(data: CartPromise): ReturnProps {
+export function getCartDetails(data: CartPromise): GetCartDetailsProps {
   const items = data.items.map((item) => {
     const { productVariant, quantity } = item;
     const { price, editionType, product } = productVariant;

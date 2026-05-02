@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 
-import { prisma } from "@/lib/prisma";
+import { GetSearchParams } from "@/static/types";
+
+import { findProducts } from "@/functions/find-products";
 
 import Title from "@/components/shared/title";
 import TopBar from "@/components/shared/top-bar";
@@ -8,21 +10,15 @@ import Filters from "@/components/shared/filters";
 import Container from "@/components/shared/container";
 import ProductGroup from "@/components/shared/product-group-list";
 
-async function getCategoriesWithProducts() {
-  return await prisma?.category.findMany({
-    include: {
-      products: {
-        include: {
-          variants: true,
-          features: true,
-        },
-      },
-    },
-  });
-}
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<GetSearchParams>;
+}) {
+  const resolvedParams = await searchParams;
+  const categories = await findProducts(resolvedParams);
 
-export default async function Home() {
-  const categories = await getCategoriesWithProducts();
+  console.log(categories);
 
   return (
     <>
@@ -32,7 +28,7 @@ export default async function Home() {
 
       <TopBar categories={categories.filter((c) => c.products.length > 0)} />
 
-      <Container className="mt-10 pb14">
+      <Container className="mt-10 pb-14">
         <div className="flex gap-16">
           <div className="w-[250px] shrink-0">
             <Suspense>
