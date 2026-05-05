@@ -13,8 +13,6 @@ export async function findProducts(params: GetSearchParams) {
   const minPrice = Number(params.from) || DEFAULT_MIN_PRICE;
   const maxPrice = Number(params.to) || DEFAULT_MAX_PRICE;
 
-  console.log(featuresArr);
-
   const categories = await prisma.category.findMany({
     include: {
       products: {

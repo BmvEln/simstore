@@ -100,14 +100,14 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (!id) {
-      return NextResponse.json({ error: "Не указан id" });
+      return NextResponse.json({ error: "PATCH: Не указан id" });
     }
 
     const token = req.cookies.get("cartToken")?.value;
 
     if (!token) {
       return NextResponse.json({
-        error: "Токен корзины не найден",
+        error: "PATCH: Токен корзины не найден",
       });
     }
 
@@ -116,7 +116,7 @@ export async function PATCH(req: NextRequest) {
     });
 
     if (!cartItem) {
-      return NextResponse.json({ error: "Товар не найден" });
+      return NextResponse.json({ error: "PATCH: Товар не найден" });
     }
 
     await prisma.cartItem.update({
@@ -131,7 +131,7 @@ export async function PATCH(req: NextRequest) {
     console.log("Ошибка при обновлении корзины", error);
     return NextResponse.json(
       {
-        message: "Ошибка при обновлении корзины",
+        message: "PATCH: Ошибка при обновлении корзины",
       },
       { status: 500 },
     );
@@ -143,14 +143,14 @@ export async function DELETE(req: NextRequest) {
     const { id } = await req.json();
 
     if (!id) {
-      return NextResponse.json({ error: "Не указан id" });
+      return NextResponse.json({ error: "DELETE: Не указан id" });
     }
 
     const token = req.cookies.get("cartToken")?.value;
 
     if (!token) {
       return NextResponse.json({
-        error: "Токен корзины не найден",
+        error: "DELETE: Токен корзины не найден",
       });
     }
 
@@ -159,7 +159,7 @@ export async function DELETE(req: NextRequest) {
     });
 
     if (!cartItem) {
-      return NextResponse.json({ error: "Товар не найден" });
+      return NextResponse.json({ error: "DELETE: Товар не найден" });
     }
 
     await prisma.cartItem.delete({

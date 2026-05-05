@@ -30,8 +30,6 @@ function Filters({ className }: Props) {
     value: f.id.toString(),
   }));
 
-  console.log(1);
-
   return (
     <div className={cn("", className)}>
       <Title className="mb-5 font-bold" size="sm" text="Фильтрация" />

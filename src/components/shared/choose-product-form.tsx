@@ -57,7 +57,7 @@ function ChooseProductForm({
         alt=""
       />
 
-      <div className="w-[890px] bg-[#fcfcfc] p-7">
+      <div className="bg-[#fcfcfc] p-7">
         <Title text={name} size="md" className="font-extrabold mb-1" />
 
         <div className="text-gray-400 mb-3">{desc}</div>
