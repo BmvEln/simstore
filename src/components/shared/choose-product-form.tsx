@@ -35,17 +35,31 @@ function ChooseProductForm({
   onClickAdd,
   className,
 }: ChooseProductForm) {
-  const [editionType, setEditionType] = useState<number>(1);
+  const items = Object.entries(EDITION_NAMES).map(([key, { name, desc }]) => {
+    const variant = variants.find((v) => v.editionType === Number(key));
 
-  const items = Object.values(EDITION_NAMES).map(({ name, desc }, i) => ({
-    name,
-    value: variants[i]?.editionType.toString(),
-    tip: desc,
-    disabled: !variants[i],
-  }));
+    if (variant) {
+      return {
+        name,
+        value: key,
+        tip: desc,
+        disabled: false,
+      };
+    }
+
+    return {
+      name,
+      disabled: true,
+    };
+  });
+
+  const [editionType, setEditionType] = useState<number>(
+    variants[0].editionType,
+  );
+  const selectedVariant = variants.find((v) => v.editionType === editionType);
 
   const onClickHandler = useCallback(() => {
-    onClickAdd(variants[editionType - 1].id);
+    if (selectedVariant) onClickAdd(selectedVariant.id);
   }, [variants, editionType]);
 
   return (
@@ -86,7 +100,7 @@ function ChooseProductForm({
           loading={loading}
           className="h-[55px] w-[322px] px-10 text-base rounded-[18px] cursor-pointer"
         >
-          Добавить в корзину за {variants[editionType - 1].price} руб.
+          Добавить в корзину за {selectedVariant?.price} руб.
         </Button>
       </div>
     </div>

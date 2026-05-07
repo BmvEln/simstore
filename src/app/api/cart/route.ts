@@ -220,9 +220,7 @@ export async function POST(req: NextRequest) {
           quantity: cartItem.quantity + 1,
         },
       });
-    }
-
-    if (!cartItem) {
+    } else {
       await prisma.cartItem.create({
         data: {
           cartId: userCart.id,

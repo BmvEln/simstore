@@ -67,6 +67,7 @@ function CartDrawer({ children }: Props) {
                 key={item.productVariantId}
                 productId={item.productId}
                 name={item.name}
+                disabled={item.disabled}
                 editionType={item.editionType}
                 price={item.price}
                 quantity={item.quantity}

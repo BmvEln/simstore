@@ -9,8 +9,8 @@ import { Info } from "lucide-react";
 
 type Variant = {
   name: string;
-  value: string;
-  tip: string;
+  value?: string;
+  tip?: string;
   disabled?: boolean;
 };
 

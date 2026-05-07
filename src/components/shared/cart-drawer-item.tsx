@@ -38,6 +38,7 @@ interface Props {
   quantity: number;
   onClickCount: (type: "plus" | "minus") => void;
   onClickRemove: () => void;
+  disabled?: boolean;
 }
 
 function CartDrawerItem({
@@ -48,7 +49,11 @@ function CartDrawerItem({
   quantity,
   onClickCount,
   onClickRemove,
+  disabled,
 }: Props) {
+  // TODO: Использовать при удалении товара
+  console.log(disabled);
+
   return (
     <div className="bg-white px-4 py-3">
       <div className="relative flex gap-4 items-center bg-amber-50 border rounded-md">
