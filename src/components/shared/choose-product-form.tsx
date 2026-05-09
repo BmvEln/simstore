@@ -10,9 +10,9 @@ import { cn } from "@/lib/utils";
 import { IMG } from "@/static/img";
 import { EDITION_NAMES } from "@/static/const";
 
-import Title from "./title";
-import { Button } from "../ui";
-import GroupVariants from "./group-variants";
+import { Button } from "@/components/ui/button";
+import Title from "@/components/shared/title";
+import GroupVariants from "@/components/shared/group-variants";
 
 type ChooseProductForm = {
   id: number;

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { IMG } from "@/static/img";
 import { ProductCardProps } from "@/static/types";
 
-import Title from "./title";
+import Title from "@/components/shared/title";
 
 interface RowInfoProps {
   title: string;

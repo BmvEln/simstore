@@ -15,7 +15,7 @@ import {
 
 import { useCartStore } from "@/store/cart";
 
-import { Button } from "../ui";
+import { Button } from "@/components/ui/button";
 import CartDrawerItem from "./cart-drawer-item";
 
 interface Props {

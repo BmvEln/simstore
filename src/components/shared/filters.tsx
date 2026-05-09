@@ -9,9 +9,8 @@ import { useFilterFeatures, useFilters, useQueryFilters } from "@/hooks";
 import { EDITION_NAMES } from "@/static/const";
 
 import Title from "@/components/shared/title";
-
-import RangeCosts from "./range-costs";
-import CheckboxFiltersGroup from "./checkbox-filters-group";
+import RangeCosts from "@/components/shared/range-costs";
+import CheckboxFiltersGroup from "@/components/shared/checkbox-filters-group";
 
 interface Props {
   className?: string;

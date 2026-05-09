@@ -7,7 +7,7 @@ import { ProductWithRelations } from "@/static/types";
 import { useCartStore } from "@/store/cart";
 import { useNotificationStore } from "@/store/notification";
 
-import ChooseProductForm from "./choose-product-form";
+import ChooseProductForm from "@/components/shared/choose-product-form";
 
 type ProductFormProps = {
   product: ProductWithRelations;

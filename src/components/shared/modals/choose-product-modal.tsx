@@ -5,9 +5,8 @@ import { useRouter } from "next/navigation";
 
 import { ProductWithRelations } from "@/static/types";
 
+import ProductForm from "@/components/shared/product-form";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-
-import ProductForm from "../product-form";
 
 type ChooseProductModalProps = {
   product: ProductWithRelations;

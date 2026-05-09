@@ -1,12 +1,13 @@
 import React from "react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { User } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import Container from "@/components/shared/container";
-import { Button } from "@/components/ui";
-import { ArrowRight, Car, ShoppingCart, User } from "lucide-react";
-import Link from "next/link";
+import CartButton from "@/components/shared/cart-button";
 import SearchInput from "@/components/shared/search-input";
-import CartButton from "./cart-button";
 
 interface Props {
   className?: string;

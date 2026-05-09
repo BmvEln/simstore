@@ -7,9 +7,8 @@ import { ProductCardProps } from "@/static/types";
 
 import { useCategoryStore } from "../../store/category";
 
-import ProductCard from "./product-card";
-
-import Title from "./title";
+import Title from "@/components/shared/title";
+import ProductCard from "@/components/shared/product-card";
 
 type Item = ProductCardProps;
 
