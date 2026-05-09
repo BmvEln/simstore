@@ -93,34 +93,54 @@ export async function GET(req: NextRequest) {
 // /api/cart/[id]
 export async function PATCH(req: NextRequest) {
   try {
-    const { id, quantity } = await req.json();
+    const { productVariantId, quantity } = await req.json();
 
-    if (quantity < 1) {
-      return NextResponse.json({ error: "Количество не может быть меньше 1" });
+    if (!productVariantId) {
+      return NextResponse.json(
+        { error: "PATCH: Не указан productVariantId" },
+        { status: 400 },
+      );
     }
 
-    if (!id) {
-      return NextResponse.json({ error: "PATCH: Не указан id" });
+    if (quantity < 1) {
+      return NextResponse.json(
+        { error: "Количество не может быть меньше 1" },
+        { status: 400 },
+      );
     }
 
     const token = req.cookies.get("cartToken")?.value;
-
     if (!token) {
       return NextResponse.json({
         error: "PATCH: Токен корзины не найден",
+        status: 401,
+      });
+    }
+
+    const userCart = await prisma.cart.findFirst({
+      where: {
+        token,
+      },
+    });
+    if (!userCart) {
+      return NextResponse.json({
+        error: "PATCH: Корзина не найдена",
+        status: 404,
       });
     }
 
     const cartItem = await prisma.cartItem.findFirst({
-      where: { id },
+      where: { cartId: userCart.id, productVariantId },
     });
-
     if (!cartItem) {
-      return NextResponse.json({ error: "PATCH: Товар не найден" });
+      return NextResponse.json({
+        error: "PATCH: Товар не найден в корзине",
+        status: 404,
+      });
     }
 
     await prisma.cartItem.update({
-      where: { id },
+      where: { id: cartItem.id },
       data: { quantity },
     });
 
@@ -140,30 +160,48 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { id } = await req.json();
+    const { productVariantId } = await req.json();
 
-    if (!id) {
-      return NextResponse.json({ error: "DELETE: Не указан id" });
+    if (!productVariantId) {
+      return NextResponse.json({
+        error: "DELETE: Не указан productVariantId",
+        status: 400,
+      });
     }
 
     const token = req.cookies.get("cartToken")?.value;
-
     if (!token) {
       return NextResponse.json({
         error: "DELETE: Токен корзины не найден",
+        status: 401,
+      });
+    }
+
+    const userCart = await prisma.cart.findFirst({
+      where: {
+        token,
+      },
+    });
+    if (!userCart) {
+      return NextResponse.json({
+        error: "DELETE: Корзина не найдена",
+        status: 404,
       });
     }
 
     const cartItem = await prisma.cartItem.findFirst({
-      where: { id },
+      where: { cartId: userCart.id, productVariantId },
     });
 
     if (!cartItem) {
-      return NextResponse.json({ error: "DELETE: Товар не найден" });
+      return NextResponse.json({
+        error: "DELETE: Товар не найден",
+        status: 404,
+      });
     }
 
     await prisma.cartItem.delete({
-      where: { id },
+      where: { id: cartItem.id },
     });
 
     const updatedCart = await updateCart(token);

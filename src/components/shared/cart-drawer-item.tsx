@@ -3,11 +3,11 @@
 import React from "react";
 import Image from "next/image";
 
-import { IMG } from "@/static/img";
-
-import { EDITION_NAMES } from "@/static/const";
 import { cn } from "@/lib/utils";
 import { Trash } from "lucide-react";
+
+import { IMG } from "@/static/img";
+import { EDITION_NAMES } from "@/static/const";
 
 type ButtonQuantityProps = {
   content: string;

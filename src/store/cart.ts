@@ -12,9 +12,12 @@ export type CartStore = {
   totalAmount: number;
   items: CartStateItem[];
   getCartItems: () => Promise<void>;
-  updateItemQuantity: (id: number, quantity: number) => Promise<void>;
+  updateItemQuantity: (
+    productVariantId: number,
+    quantity: number,
+  ) => Promise<void>;
   addCartItem: (productVariantId: number) => Promise<void>;
-  removeCartItem: (id: number) => Promise<void>;
+  removeCartItem: (productVariantId: number) => Promise<void>;
 };
 
 export const useCartStore = create<CartStore>((set) => ({
@@ -24,8 +27,8 @@ export const useCartStore = create<CartStore>((set) => ({
   totalAmount: 0,
 
   getCartItems: async () => {
+    set({ loading: true, error: false });
     try {
-      set({ loading: true, error: false });
       const data = await API.cart.getCart();
       set(getCartDetails(data));
     } catch (error) {
@@ -34,10 +37,13 @@ export const useCartStore = create<CartStore>((set) => ({
       set({ loading: false });
     }
   },
-  updateItemQuantity: async (id: number, quantity: number) => {
+  updateItemQuantity: async (productVariantId: number, quantity: number) => {
     set({ loading: true, error: false });
     try {
-      const data = await API.cart.updateItemQuantity(id, quantity);
+      const data = await API.cart.updateItemQuantity(
+        productVariantId,
+        quantity,
+      );
       set(getCartDetails(data));
     } catch (error) {
       set({ error: true });
@@ -56,16 +62,16 @@ export const useCartStore = create<CartStore>((set) => ({
       set({ loading: false });
     }
   },
-  removeCartItem: async (id: number) => {
+  removeCartItem: async (productVariantId: number) => {
     set((state) => ({
       loading: true,
       error: false,
       items: state.items.map((item) =>
-        item.id === id ? { ...item, disabled: true } : item,
+        item.id === productVariantId ? { ...item, disabled: true } : item,
       ),
     }));
     try {
-      const data = await API.cart.removeCartItem(id);
+      const data = await API.cart.removeCartItem(productVariantId);
       set(getCartDetails(data));
     } catch (error) {
       set({ error: true });

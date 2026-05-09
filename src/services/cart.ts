@@ -8,21 +8,23 @@ export const getCart = async (): Promise<CartPromise> => {
 };
 
 export const updateItemQuantity = async (
-  id: number,
+  productVariantId: number,
   quantity: number,
 ): Promise<CartPromise> => {
   return (
     await instance.patch<CartPromise>(ApiRoutes.CART, {
-      id,
+      productVariantId,
       quantity,
     })
   ).data;
 };
 
-export const removeCartItem = async (id: number): Promise<CartPromise> => {
+export const removeCartItem = async (
+  productVariantId: number,
+): Promise<CartPromise> => {
   return (
     await instance.delete<CartPromise>(ApiRoutes.CART, {
-      data: { id },
+      data: { productVariantId },
     })
   ).data;
 };

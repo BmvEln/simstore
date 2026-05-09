@@ -37,16 +37,16 @@ function CartDrawer({ children }: Props) {
   }, []);
 
   const onClickCount = useCallback(
-    (id: number, quantity: number, type: "plus" | "minus") => {
+    (productVariantId: number, quantity: number, type: "plus" | "minus") => {
       const newQuantity = type === "minus" ? quantity - 1 : quantity + 1;
 
-      updateItemQuantity(id, newQuantity);
+      updateItemQuantity(productVariantId, newQuantity);
     },
     [],
   );
 
-  const onClickRemove = useCallback((id: number) => {
-    removeCartItem(id);
+  const onClickRemove = useCallback((productVariantId: number) => {
+    removeCartItem(productVariantId);
   }, []);
 
   return (
