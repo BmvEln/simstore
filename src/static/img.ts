@@ -8,6 +8,8 @@ import s06 from "./jpg/products/06.jpg";
 import s04 from "./jpg/products/04.jpg";
 import s03 from "./jpg/products/03.jpg";
 
+import emptyCart from "./webp/empty-cart.webp";
+
 export const IMG = {
   logo,
   s01,
@@ -17,4 +19,6 @@ export const IMG = {
   s06,
   s04,
   s03,
+
+  emptyCart,
 };

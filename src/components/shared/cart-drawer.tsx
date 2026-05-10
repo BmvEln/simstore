@@ -4,6 +4,8 @@ import React, { useCallback, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { IMG } from "@/static/img";
+
 import {
   Sheet,
   SheetContent,
@@ -17,6 +19,7 @@ import { useCartStore } from "@/store/cart";
 
 import { Button } from "@/components/ui/button";
 import CartDrawerItem from "./cart-drawer-item";
+import Image from "next/image";
 
 interface Props {
   className?: string;
@@ -54,55 +57,76 @@ function CartDrawer({ children }: Props) {
       <SheetTrigger asChild>{children}</SheetTrigger>
 
       <SheetContent className="flex flex-col justify-between pb-0 bg-[#f6f6f6]">
-        <div className="flex flex-col h-[calc(100%-164px)]">
-          <SheetHeader>
-            <SheetTitle className="text-lg whitespace-nowrap">
-              В корзине {items.length} товар на сумму {totalAmount} ₽
-            </SheetTitle>
-          </SheetHeader>
+        {!!items.length && (
+          <div className="flex flex-col h-[calc(100%-164px)]">
+            <SheetHeader>
+              <SheetTitle className="text-lg whitespace-nowrap">
+                В корзине {items.length} товар на сумму {totalAmount} ₽
+              </SheetTitle>
+            </SheetHeader>
 
-          <div className="flex flex-col gap-4 overflow-y-auto">
-            {items.map((item) => (
-              <CartDrawerItem
-                key={item.productVariantId}
-                productId={item.productId}
-                name={item.name}
-                disabled={item.disabled}
-                editionType={item.editionType}
-                price={item.price}
-                quantity={item.quantity}
-                onClickCount={(type) =>
-                  onClickCount(item.productVariantId, item.quantity, type)
-                }
-                onClickRemove={() => onClickRemove(item.productVariantId)}
-              />
-            ))}
+            <div className="flex flex-col gap-4 overflow-y-auto">
+              {items.map((item) => (
+                <CartDrawerItem
+                  key={item.productVariantId}
+                  productId={item.productId}
+                  name={item.name}
+                  disabled={item.disabled}
+                  editionType={item.editionType}
+                  price={item.price}
+                  quantity={item.quantity}
+                  onClickCount={(type) =>
+                    onClickCount(item.productVariantId, item.quantity, type)
+                  }
+                  onClickRemove={() => onClickRemove(item.productVariantId)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        <SheetFooter className="bg-white p-8 mt-4">
-          <div className="flex mb-4">
-            <span className="flex w-full text-lg text-neutral-500">
-              Итого
-              <div className="w-full border-b border-dashed border-b-neutral-200 relative -top-1 mx-2" />
-            </span>
+        {!items.length && (
+          <div className="flex flex-col h-full items-center justify-center">
+            <Image
+              className="mb-4"
+              src={IMG.emptyCart}
+              alt=""
+              width={256}
+              height={256}
+            />
 
-            <span className="font-bold text-lg whitespace-nowrap">
-              {totalAmount || 0} ₽
-            </span>
+            <div>
+              <div className="text-2xl mb-1 font-bold">Пока тут пусто</div>
+              <div>Добавьте игру. Или две!</div>
+            </div>
           </div>
+        )}
 
-          <Link href="/cart">
-            <Button
-              className="w-full h-12 text-base"
-              onClick={() => {}}
-              type="submit"
-            >
-              Оформить заказ
-              <ArrowRight className="w-5 ml-2" />
-            </Button>
-          </Link>
-        </SheetFooter>
+        {!!items.length && (
+          <SheetFooter className="bg-white p-8 mt-4">
+            <div className="flex mb-4">
+              <span className="flex w-full text-lg text-neutral-500">
+                Итого
+                <div className="w-full border-b border-dashed border-b-neutral-200 relative -top-1 mx-2" />
+              </span>
+
+              <span className="font-bold text-lg whitespace-nowrap">
+                {totalAmount || 0} ₽
+              </span>
+            </div>
+
+            <Link href="/cart">
+              <Button
+                className="w-full h-12 text-base"
+                onClick={() => {}}
+                type="submit"
+              >
+                Оформить заказ
+                <ArrowRight className="w-5 ml-2" />
+              </Button>
+            </Link>
+          </SheetFooter>
+        )}
       </SheetContent>
     </Sheet>
   );
