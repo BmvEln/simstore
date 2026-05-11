@@ -1,10 +1,15 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 import { IMG } from "@/static/img";
+
+import { useCartStore } from "@/store/cart";
+
+import { getNewQuantity } from "@/functions/get-new-quantity";
 
 import {
   Sheet,
@@ -15,11 +20,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { useCartStore } from "@/store/cart";
-
 import { Button } from "@/components/ui/button";
-import CartDrawerItem from "./cart-drawer-item";
-import Image from "next/image";
+import CartDrawerItem from "@/components/shared/cart-drawer-item";
 
 interface Props {
   className?: string;
@@ -27,6 +29,8 @@ interface Props {
 }
 
 function CartDrawer({ children }: Props) {
+  const [redirect, setRedirect] = useState(false);
+
   const {
     items,
     totalAmount,
@@ -41,9 +45,7 @@ function CartDrawer({ children }: Props) {
 
   const onClickCount = useCallback(
     (productVariantId: number, quantity: number, type: "plus" | "minus") => {
-      const newQuantity = type === "minus" ? quantity - 1 : quantity + 1;
-
-      updateItemQuantity(productVariantId, newQuantity);
+      updateItemQuantity(productVariantId, getNewQuantity(quantity, type));
     },
     [],
   );
@@ -115,13 +117,14 @@ function CartDrawer({ children }: Props) {
               </span>
             </div>
 
-            <Link href="/cart">
+            <Link href="/checkout">
               <Button
                 className="w-full h-12 text-base"
-                onClick={() => {}}
+                onClick={() => setRedirect(true)}
+                loading={redirect}
                 type="submit"
               >
-                Оформить заказ
+                <span>Оформить заказ</span>
                 <ArrowRight className="w-5 ml-2" />
               </Button>
             </Link>

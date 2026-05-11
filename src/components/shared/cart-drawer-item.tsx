@@ -3,32 +3,12 @@
 import React from "react";
 import Image from "next/image";
 
-import { cn } from "@/lib/utils";
 import { Trash } from "lucide-react";
 
 import { IMG } from "@/static/img";
 import { EDITION_NAMES } from "@/static/const";
 
-type ButtonQuantityProps = {
-  content: string;
-  quantity?: number;
-  onClick: () => void;
-};
-function ButtonQuantity({ content, quantity, onClick }: ButtonQuantityProps) {
-  const locked = typeof quantity !== "undefined" && quantity === 1;
-
-  return (
-    <div
-      onClick={() => (locked ? {} : onClick())}
-      className={cn(
-        "flex text-xl items-center justify-center border rounded-[4px] w-6 h-6 cursor-pointer hover:bg-neutral-100 transition-all duration-200",
-        locked && "text-neutral-300 pointer-events-none",
-      )}
-    >
-      {content}
-    </div>
-  );
-}
+import ButtonCount from "./button-quantity";
 
 interface Props {
   productId: number;
@@ -85,15 +65,8 @@ function CartDrawerItem({
 
       <div className="flex justify-between">
         <div>{price} ₽</div>
-        <div className="flex gap-2 items-center">
-          <ButtonQuantity
-            content="-"
-            quantity={quantity}
-            onClick={() => onClickCount("minus")}
-          />
-          {quantity}
-          <ButtonQuantity content="+" onClick={() => onClickCount("plus")} />
-        </div>
+
+        <ButtonCount quantity={quantity} onClick={onClickCount} />
       </div>
     </div>
   );

@@ -11,6 +11,8 @@ import SearchInput from "@/components/shared/search-input";
 
 interface Props {
   className?: string;
+  showSearch?: boolean;
+  showCart?: boolean;
 }
 
 function Logo() {
@@ -32,7 +34,7 @@ function Logo() {
   );
 }
 
-function Header({ className }: Props) {
+function Header({ className, showSearch = true, showCart = true }: Props) {
   return (
     <header className={cn("", className)}>
       <Container className="flex items-center justify-between py-8">
@@ -48,9 +50,11 @@ function Header({ className }: Props) {
         </Link>
 
         {/* Центральная часть*/}
-        <div className="w-full mx-10">
-          <SearchInput />
-        </div>
+        {showSearch && (
+          <div className="w-full mx-10">
+            <SearchInput />
+          </div>
+        )}
 
         {/* Правая часть */}
         <div className="flex gap-4">
@@ -59,11 +63,11 @@ function Header({ className }: Props) {
             <span>Войти</span>
           </Button>
 
-          <CartButton />
+          {showCart && <CartButton />}
         </div>
       </Container>
 
-      <div className="h-[1px] w-full bg-black/10" />
+      <div className="h-px w-full bg-black/10" />
     </header>
   );
 }

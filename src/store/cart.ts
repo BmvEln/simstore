@@ -4,7 +4,7 @@ import { API } from "@/services/api-client";
 
 import { CartStateItem } from "@/static/types";
 
-import { getCartDetails } from "@/functions/data";
+import { getCartDetails } from "@/functions/get-cart-details";
 
 export type CartStore = {
   loading: boolean;

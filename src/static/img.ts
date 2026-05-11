@@ -10,6 +10,11 @@ import s03 from "./jpg/products/03.jpg";
 
 import emptyCart from "./webp/empty-cart.webp";
 
+import box from "./svg/box.svg";
+import percent from "./svg/percent.svg";
+import truck from "./svg/truck.svg";
+import arrowRightWhite from "./svg/arrow-right-white.svg";
+
 export const IMG = {
   logo,
   s01,
@@ -21,4 +26,9 @@ export const IMG = {
   s03,
 
   emptyCart,
+
+  box,
+  percent,
+  truck,
+  arrowRightWhite,
 };

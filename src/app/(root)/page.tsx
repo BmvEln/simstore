@@ -18,8 +18,6 @@ export default async function Home({
   const resolvedParams = await searchParams;
   const categories = await findProducts(resolvedParams);
 
-  console.log(categories);
-
   return (
     <>
       <Container className="mt-10">
