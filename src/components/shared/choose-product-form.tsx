@@ -65,6 +65,7 @@ function ChooseProductForm({
   return (
     <div className={cn("flex", className)}>
       <Image
+        className="shrink-0"
         src={IMG[`s${String(id).padStart(2, "0")}` as keyof typeof IMG]}
         width={363}
         height={448}

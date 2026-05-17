@@ -58,7 +58,10 @@ function Header({ className, showSearch = true, showCart = true }: Props) {
 
         {/* Правая часть */}
         <div className="flex gap-4">
-          <Button className="flex items-center gap-1" variant="outline">
+          <Button
+            className="flex items-center gap-1 cursor-pointer"
+            variant="outline"
+          >
             <User size={16} />
             <span>Войти</span>
           </Button>

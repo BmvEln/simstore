@@ -14,6 +14,7 @@ import box from "./svg/box.svg";
 import percent from "./svg/percent.svg";
 import truck from "./svg/truck.svg";
 import arrowRightWhite from "./svg/arrow-right-white.svg";
+import x from "./svg/x.svg";
 
 export const IMG = {
   logo,
@@ -31,4 +32,5 @@ export const IMG = {
   percent,
   truck,
   arrowRightWhite,
+  x,
 };

@@ -21,7 +21,11 @@ function CartButton({ className }: Props) {
     <CartDrawer>
       <Button
         loading={loading}
-        className={cn("group relative", { "w-[100px]": loading }, className)}
+        className={cn(
+          "group relative cursor-pointer",
+          { "w-[100px]": loading },
+          className,
+        )}
         variant="outline"
       >
         <b>{totalAmount || 0} ₽</b>

@@ -119,7 +119,7 @@ function CartDrawer({ children }: Props) {
 
             <Link href="/checkout">
               <Button
-                className="w-full h-12 text-base"
+                className="w-full h-12 text-base cursor-pointer"
                 onClick={() => setRedirect(true)}
                 loading={redirect}
                 type="submit"
